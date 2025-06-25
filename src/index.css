@@ -1,0 +1,25 @@
+/* Import Google Fonts - I've added Inter as it's a great, modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+/* These are the 3 core directives for Tailwind CSS to work. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* A basic body reset to remove the default centering from the Vite template
+  and set a default font for the whole application.
+*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* This ensures your app can correctly use flexbox layouts to fill the screen */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
