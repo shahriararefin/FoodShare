@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const DonationActions = () => {
     return (
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-12 my-12">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-12 my-4">
             {/* Donate Food Card */}
             <Link to="/donate" className="text-center group">
                 <div className="w-48 h-48 bg-yellow-400 rounded-2xl mb-4 shadow-lg transition-transform transform group-hover:scale-105"></div>

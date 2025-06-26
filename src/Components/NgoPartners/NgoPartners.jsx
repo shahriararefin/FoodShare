@@ -35,9 +35,9 @@ const partners = [
 
 const NgoPartners = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto mt-12">
+    <div className="w-full max-w-5xl mx-auto mt-12 ">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Our NGO Partners</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {partners.map(partner => (
           <PartnerCard key={partner.id} partner={partner} />
         ))}
