@@ -5,7 +5,7 @@ import RecentDonations from '../../Components/RecentDonations/RecentDonations';
 
 const Home = () => {
   return (
-    <div className="h-screen bg-yellow-100 flex flex-col overflow-hidden">
+    <div className="nax-h-screen bg-yellow-100 flex flex-col overflow-hidden">
       {/* Simplified Header for Home Page */}
 
       {/* Main Content */}

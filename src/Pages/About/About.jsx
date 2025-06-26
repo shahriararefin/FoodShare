@@ -4,7 +4,7 @@ import NgoPartners from '../../Components/NgoPartners/NgoPartners';
 import pickup from '../../assets/pickup.svg'; 
 const About = () => {
   return (
-    <div className="min-h-screen bg-yellow-100 flex flex-col">
+    <div className="max-h-screen bg-yellow-100 flex flex-col">
     
       
       {/* Main Content */}
