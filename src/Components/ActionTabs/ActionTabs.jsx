@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const ActionTabs = () => {
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-8">
-      {/* Request Pickup Tab */}
+      {/* Request Pickup Tab
       <Link
         to="/available-donations" // This could link to a specific request page later
         className="flex flex-col items-center bg-[#0C3B25] hover:bg-[#176b43] text-white font-bold px-10 py-6 rounded-2xl shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
@@ -19,7 +19,7 @@ const ActionTabs = () => {
           />
         </svg>
         Request Pickup
-      </Link>
+      </Link> */}
       {/* Donate Food Tab */}
       <Link
         to="/donate"
