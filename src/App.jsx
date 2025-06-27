@@ -1,8 +1,7 @@
-//src/App.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-// Import all page and layout components from their specific sub-folders
+// Import all page and layout components
 import Header from './Components/Header/Header'; 
 import Home from './Pages/Home/Home';
 import About from './Pages/About/About';
@@ -11,23 +10,38 @@ import Login from './Pages/Login/Login';
 import Donate from './Pages/Donate/Donate';
 import AvailableDonations from './Pages/AvailableDonations/AvailableDonations';
 import Profile from './Pages/Profile/Profile';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'; // Import the ProtectedRoute component
 
 function App() {
   return (
-    // This div sets the overall background and layout for all pages
     <div className="min-h-screen bg-yellow-100 flex flex-col">
-      {/* The single, shared Header component appears on every page */}
       <Header />
       
-      {/* The Routes component handles switching between the different page components */}
       <Routes>
+        {/* These routes are public and can be accessed by anyone */}
         <Route path="/" element={<Home />} />
-        <Route path="/donate" element={<Donate />} />
-        <Route path="/available-donations" element={<AvailableDonations />} />
         <Route path="/about" element={<About />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/available-donations" element={<AvailableDonations />} />
+
+        {/* These routes are protected. We wrap their elements in our ProtectedRoute component. */}
+        <Route 
+          path="/donate" 
+          element={
+            <ProtectedRoute>
+              <Donate />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </div>
   );

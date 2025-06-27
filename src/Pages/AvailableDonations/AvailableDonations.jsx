@@ -1,37 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ActionTabs from '../../Components/ActionTabs/ActionTabs';
 import DonationCard from '../../Components/DonationCard/DonationCard';
 import WavyBackground from '../../Components/WavyBackground/WavyBackground';
-
-// Mock data for donations - in a real application, this would come from a database or API.
-const donations = [
-  {
-    id: 1,
-    title: 'Fresh Bread & Fruits',
-    time: '10:00 AM - 12:00 PM',
-    location: '123 Main St, City Center',
-    contact: { phone: '+1234567892', email: 'provider1@example.com' },
-    status: 'Available',
-  },
-  {
-    id: 2,
-    title: 'Vegetable Curry Packets',
-    time: '1:00 PM - 2:30 PM',
-    location: '456 Lakeview Ave, Riverside',
-    contact: { phone: '+1234567893', email: 'provider2@example.com' },
-    status: 'Available',
-  },
-  {
-    id: 3,
-    title: 'Rice & Dal Meals',
-    time: '5:00 PM - 7:00 PM',
-    location: '789 Hill Rd, Uptown',
-    contact: { phone: '+1234567894', email: 'provider3@example.com' },
-    status: 'Available',
-  },
-];
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 
 const AvailableDonations = () => {
+  // State to hold the list of donations fetched from Firestore
+  const [donations, setDonations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // useEffect hook to fetch data when the component mounts
+  useEffect(() => {
+    // Create a query to get documents from the 'donations' collection,
+    // ordered by their creation time in descending order (newest first).
+    const q = query(collection(db, "donations"), orderBy("createdAt", "desc"));
+
+    // onSnapshot is a real-time listener. It runs once to get the initial data,
+    // and then it runs again every time the data in the collection changes.
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const donationsData = [];
+      querySnapshot.forEach((doc) => {
+        // We push the document data, along with its unique ID, into our array.
+        donationsData.push({ id: doc.id, ...doc.data() });
+      });
+      setDonations(donationsData); // Update our state with the new data
+      setLoading(false);
+    }, (err) => {
+      // This is the error handler for the listener
+      console.error("Error fetching donations:", err);
+      setError("Failed to load donations. Please try again later.");
+      setLoading(false);
+    });
+
+    // This cleanup function unsubscribes from the listener when the component unmounts.
+    return () => unsubscribe();
+  }, []); // The empty dependency array means this effect runs only once.
+
   return (
     <main className="flex-1 flex flex-col items-center bg-[#FEFDF9] relative overflow-hidden p-4">
       <WavyBackground />
@@ -45,16 +51,23 @@ const AvailableDonations = () => {
         
         <ActionTabs />
 
-        {/* List of Donation Cards */}
         <div className="w-full max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-[#1E3A2F] mb-4 text-center">
-            Previously Added Donations
+            Current Available Donations
           </h2>
-          <div className="flex flex-col gap-4">
-            {donations.map((donation) => (
-              <DonationCard key={donation.id} donation={donation} />
-            ))}
-          </div>
+          {loading && <p className="text-center">Loading donations...</p>}
+          {error && <p className="text-center text-red-500">{error}</p>}
+          {!loading && !error && (
+            <div className="flex flex-col gap-4">
+              {donations.length > 0 ? (
+                donations.map((donation) => (
+                  <DonationCard key={donation.id} donation={donation} />
+                ))
+              ) : (
+                <p className="text-center text-gray-500">No available donations at the moment. Be the first to share!</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </main>
