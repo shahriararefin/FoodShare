@@ -14,6 +14,7 @@ import AvailableDonations from './Pages/AvailableDonations/AvailableDonations';
 import Profile from './Pages/Profile/Profile';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
+import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
 
 const App = () => {
   return (
@@ -27,7 +28,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/available-donations" element={<AvailableDonations />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         {/* Protected routes that just require login */}
         <Route path="/donate" element={<ProtectedRoute><Donate /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
