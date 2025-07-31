@@ -8,7 +8,7 @@ const DonationActions = () => {
             <Link to="/donate" className="text-center group">
                 <div className="w-48 h-48 bg-yellow-400 rounded-2xl mb-4 shadow-lg transition-transform transform group-hover:scale-105 overflow-hidden">
                     <img 
-                        src="https://i.imgur.com/gC5I4Jm.png" 
+                        src="/donate.jpg" 
                         alt="A person holding a box of fresh food to donate" 
                         className="w-full h-full object-cover"
                     />
@@ -22,7 +22,7 @@ const DonationActions = () => {
             <Link to="/available-donations" className="text-center group">
                 <div className="w-48 h-48 bg-yellow-400 rounded-2xl mb-4 shadow-lg transition-transform transform group-hover:scale-105 overflow-hidden">
                      <img 
-                        src="https://i.imgur.com/k2gC1sE.png" 
+                        src="/available_donations.jpg" 
                         alt="A collection of available donated food items" 
                         className="w-full h-full object-cover"
                     />
