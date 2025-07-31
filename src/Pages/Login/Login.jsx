@@ -1,12 +1,18 @@
-// src/Pages/Login/Login.jsx
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../firebaseConfig';
-import WavyBackground from '../../Components/WavyBackground/WavyBackground';
 import { toast } from 'react-toastify';
+
+// Corrected: All auth functions are now in one import line
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+// Corrected: All firestore functions in one line
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+
+// Your Firebase config
+import { auth, db } from '../../firebaseConfig';
+
+// Your components
+import WavyBackground from '../../Components/WavyBackground/WavyBackground';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,14 +24,24 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast.success("Logged in successfully!");
-      navigate('/');
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+        // 3. Check if the user's email is verified
+        if (!userCredential.user.emailVerified) {
+            toast.error("Please verify your email before logging in.");
+            // Optionally sign them out again if you want to be very strict
+            // await auth.signOut(); 
+            setError("Please verify your email before logging in.");
+            return; // Stop the login process
+        }
+
+        toast.success("Logged in successfully!");
+        navigate('/');
     } catch (err) {
-      setError("Failed to log in. Please check your credentials.");
-      console.error("Error logging in:", err);
+        setError("Failed to log in. Please check your credentials.");
+        console.error("Error logging in:", err);
     }
-  };
+};
 
   // --- NEW: Function to handle Google Sign-In ---
   const handleGoogleSignIn = async () => {

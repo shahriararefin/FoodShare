@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-// Import the functions we need to interact with the Firestore database
+import { toast } from 'react-toastify';
+
+// Corrected: All auth functions are now in one import line
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+
+// Corrected: All firestore functions in one line
 import { doc, setDoc } from 'firebase/firestore';
-// Import both the 'auth' and 'db' instances from your config file
+
+// Corrected: Only one import for your config
 import { auth, db } from '../../firebaseConfig';
+
 
 const SignupForm = () => {
   const [name, setName] = useState('');
@@ -19,26 +25,23 @@ const SignupForm = () => {
     setError('');
 
     try {
-      // 1. Create the user with Firebase Authentication (this remains the same)
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log('User created successfully:', user);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-      // 2. **NEW:** Save the user's additional details to Firestore.
-      // We use the user's unique ID (user.uid) from the authentication step
-      // as the ID for their document in the database. This links the auth user to their data.
-      await setDoc(doc(db, "users", user.uid), {
-        name: name,
-        email: email,
-        contact: contact,
-        role: 'donor', // Set a default role for new users
-        createdAt: new Date()
-      });
+        // 2. Send the verification email
+        await sendEmailVerification(user);
+        toast.info("A verification link has been sent to your email.");
 
-      console.log("User data saved to Firestore");
-
-      alert('Sign up successful! Redirecting to home page.');
-      navigate('/');
+        // Save the user's details to Firestore
+        await setDoc(doc(db, "users", user.uid), {
+            name: name,
+            email: email,
+            contact: contact,
+            role: 'donor',
+            createdAt: new Date()
+        });
+        
+        navigate('/login'); // Redirect to login page to let them log in after verifying
     } catch (err) {
       console.error("Error signing up:", err.code, err.message);
       // Provide more specific error feedback
