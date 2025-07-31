@@ -1,0 +1,73 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =================================
+    // ---     Helper Functions      ---
+    // =================================
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+
+    // Function to get the requesting user's data from the 'users' collection.
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // Checks if the logged-in user has the 'admin' role.
+    function isAdmin() {
+      return isLoggedIn() && getUserData().role == 'admin';
+    }
+
+    // Checks if the logged-in user has the 'ngo' role.
+    function isNgo() {
+      return isLoggedIn() && getUserData().role == 'ngo';
+    }
+    
+    // ⭐️ A critical function to ensure only allowed fields are being updated.
+    // It compares the incoming data (request.resource.data) with the existing data (resource.data)
+    // and ensures the set of changed fields is exactly the one we permit.
+    function onlyFieldsChanged(allowedFields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowedFields);
+    }
+
+
+    // =================================
+    // ---   Collection Rules        ---
+    // =================================
+
+    match /users/{userId} {
+      // A user can read and update their own document.
+      allow read: if isAdmin() || 
+                   resource.data.status == 'approved' ||
+                   (isLoggedIn() && request.auth.uid == resource.data.donorId);
+    }
+
+    match /donations/{donationId} {
+      // ✅ Anyone can read 'approved' donations.
+      // ✅ A logged-in user can read their own donations, regardless of status.
+      allow read: if resource.data.status == 'approved' ||
+                   (isLoggedIn() && request.auth.uid == resource.data.donorId);
+
+      // ✅ A logged-in user can create a donation for themselves with a 'pending' status.
+      allow create: if isLoggedIn() &&
+                     request.resource.data.donorId == request.auth.uid &&
+                     request.resource.data.status == 'pending';
+      
+      // 🔒 SECURED UPDATE RULE
+      allow update: if
+        (isAdmin() &&
+         resource.data.status == 'pending' &&
+         (request.resource.data.status == 'approved' || request.resource.data.status == 'rejected') &&
+         onlyFieldsChanged(['status']))
+        ||
+        (isNgo() &&
+         resource.data.status == 'approved' &&
+         request.resource.data.status == 'claimed' &&
+         onlyFieldsChanged(['status', 'claimedBy', 'claimedById']));
+
+      allow delete: if false;
+    }
+  }
+}

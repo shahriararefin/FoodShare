@@ -1,79 +1,71 @@
+// src/Components/UserDonations/UserDonations.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import DonationCard from '../DonationCard/DonationCard'; 
+import DonationCard from '../DonationCard/DonationCard'; // We'll reuse the card component
+import { ROLES } from '../../constants/roles';
 
 const UserDonations = () => {
-  // Get the current user from our global authentication context.
-  const { currentUser } = useAuth();
-  
-  // State to hold the list of this user's specific donations.
-  const [userDonations, setUserDonations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+    const { currentUser, userProfile } = useAuth();
+    const [donations, setDonations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-  // useEffect runs when the component mounts to set up the data listener.
-  useEffect(() => {
-    // We only try to fetch data if there is a logged-in user.
-    if (!currentUser) {
-      setLoading(false);
-      return;
-    }
+    useEffect(() => {
+        if (!currentUser || !userProfile) {
+            setLoading(false);
+            return;
+        }
 
-    // 1. Create a reference to the 'donations' collection.
-    const donationsCollectionRef = collection(db, "donations");
-    
-    // 2. Create a query against the collection.
-    //    - `where("donorId", "==", currentUser.uid)` is the crucial filter. It tells Firestore
-    //      to only return documents where the 'donorId' field exactly matches the current user's ID.
-    //    - `orderBy("createdAt", "desc")` sorts the results to show the newest donations first.
-    const q = query(donationsCollectionRef, where("donorId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+        let fieldToQuery = '';
+        if (userProfile.role === ROLES.DONOR) {
+            fieldToQuery = 'donorId';
+        } else if (userProfile.role === ROLES.NGO) {
+            fieldToQuery = 'claimedById';
+        } else {
+            setLoading(false);
+            return; // Don't fetch for other roles like admin on this component
+        }
 
-    // 3. onSnapshot creates a real-time listener for this specific query.
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const donationsData = [];
-      querySnapshot.forEach((doc) => {
-        donationsData.push({ id: doc.id, ...doc.data() });
-      });
-      setUserDonations(donationsData); // Update state with the user's donations.
-      setLoading(false);
-    }, (err) => {
-      console.error("Error fetching user donations:", err);
-      setError("Failed to load your donations.");
-      setLoading(false);
-    });
+        const q = query(
+            collection(db, "donations"),
+            where(fieldToQuery, "==", currentUser.uid),
+            orderBy("createdAt", "desc")
+        );
 
-    // Cleanup the listener when the component unmounts.
-    return () => unsubscribe();
-  }, [currentUser]); // The effect depends on `currentUser` to re-fetch if the user changes.
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const userDonations = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setDonations(userDonations);
+            setLoading(false);
+        }, (err) => {
+            console.error("Error fetching user donations:", err);
+            setError("Failed to load your donations.");
+            setLoading(false);
+        });
 
-  return (
-    <div className="w-full max-w-xl">
-       <div className="flex items-center justify-center gap-4 mb-6">
-        <span className="font-bold text-xl text-[#1E3A2F]">My Donations</span>
-        <input
-          type="text"
-          value={`Total: ${userDonations.length}`}
-          readOnly
-          className="input input-warning bg-yellow-300 font-medium w-48 text-center pointer-events-none rounded-full"
-        />
-      </div>
-      <div className="flex flex-col gap-4">
-        {loading && <p className="text-center">Loading your donations...</p>}
-        {error && <p className="text-center text-red-500">{error}</p>}
-        {!loading && !error && (
-            userDonations.length > 0 ? (
-                userDonations.map(donation => (
-                    <DonationCard key={donation.id} donation={donation} />
-                ))
-            ) : (
-                <p className="text-center text-gray-500">You have not made any donations yet.</p>
-            )
-        )}
-      </div>
-    </div>
-  );
+        return () => unsubscribe();
+    }, [currentUser, userProfile]);
+
+    const title = userProfile.role === ROLES.NGO ? "My Claimed Donations" : "My Donations";
+    const emptyMessage = userProfile.role === ROLES.NGO ? "You have not claimed any donations yet." : "You have not made any donations yet.";
+
+    if (loading) return <p className="text-center font-semibold">Loading your donations...</p>;
+    if (error) return <p className="text-center text-red-500">{error}</p>;
+
+    return (
+        <div className="w-full max-w-2xl">
+            <h3 className="text-2xl font-bold text-center text-[#1E3A2F] mb-6">{title}</h3>
+            <div className="flex flex-col gap-4">
+                {donations.length > 0 ? (
+                    donations.map(donation => <DonationCard key={donation.id} donation={donation} />)
+                ) : (
+                    <p className="text-center text-gray-500 bg-white/50 p-4 rounded-lg">{emptyMessage}</p>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default UserDonations;

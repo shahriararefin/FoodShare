@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 // Import the functions we need to interact with the Firestore database
-import { doc, setDoc } from 'firebase/firestore'; 
+import { doc, setDoc } from 'firebase/firestore';
 // Import both the 'auth' and 'db' instances from your config file
-import { auth, db } from '../../firebaseConfig'; 
+import { auth, db } from '../../firebaseConfig';
 
 const SignupForm = () => {
   const [name, setName] = useState('');
@@ -31,9 +31,10 @@ const SignupForm = () => {
         name: name,
         email: email,
         contact: contact,
-        createdAt: new Date() // It's good practice to store when the user was created
+        role: 'donor', // Set a default role for new users
+        createdAt: new Date()
       });
-      
+
       console.log("User data saved to Firestore");
 
       alert('Sign up successful! Redirecting to home page.');

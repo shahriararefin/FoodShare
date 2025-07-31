@@ -1,23 +1,23 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-// This component acts as a gatekeeper for our protected pages.
-// It accepts one prop, `children`, which will be the page component we want to protect.
-const ProtectedRoute = ({ children }) => {
-  // We use our custom useAuth hook to get the currentUser object.
-  const { currentUser } = useAuth();
+const ProtectedRoute = ({ children, requiredRole }) => {
+  const { currentUser, userProfile, loading } = useAuth();
+  const location = useLocation();
 
-  // If there is no currentUser (meaning the user is not logged in)...
-  if (!currentUser) {
-    // ...we use the <Navigate> component from react-router-dom to redirect them to the login page.
-    // The `replace` prop is used to replace the current entry in the history stack,
-    // so the user can't click the "back" button to get to the protected page.
-    return <Navigate to="/login" replace />;
+  if (loading) {
+    return <p className="text-center font-semibold p-8">Loading...</p>;
   }
 
-  // If there is a currentUser, we simply render the children.
-  // This means we show the page they were trying to access (e.g., the Profile page).
+  if (!currentUser) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (requiredRole && userProfile?.role !== requiredRole) {
+    return <h1 className="text-center text-red-500 text-2xl p-8">Access Denied</h1>;
+  }
+
   return children;
 };
 

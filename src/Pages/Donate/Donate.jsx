@@ -13,8 +13,6 @@ const Donate = () => {
         <DonateForm />
       </div>
 
-      {/* Footer Section */}
-      
     </main>
   );
 };
