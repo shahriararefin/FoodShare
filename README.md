@@ -1,7 +1,7 @@
-FoodShare - Surplus Food Donation Platform
-FoodShare is a full-stack web application designed to connect food donors (such as individuals, restaurants, and event organizers) with NGOs to efficiently distribute surplus food, fight hunger, and reduce food waste in the community.
+🌮 FoodShare - Surplus Food Donation Platform
+A full-stack web application designed to connect food donors with NGOs to efficiently distribute surplus food, fight hunger, and reduce food waste in the community.
 
-Key Features
+✨ Key Features
 User Authentication: Secure user sign-up, login, and logout functionality with both email/password and Google Sign-In. Includes email verification and password reset features.
 
 Role-Based Access Control: The application supports three distinct user roles with different permissions:
@@ -22,23 +22,19 @@ User Profile: A dedicated page where donors can see the status of their donation
 
 Real-time Updates: Utilizes Firestore's real-time listeners to instantly update the UI when data changes (e.g., a claimed donation disappears from the available list).
 
-Technology Stack
-Frontend:
+🚀 Technology Stack
+Frontend
+Framework: React (via Vite)
 
-React (Vite): A modern, fast framework for building user interfaces.
+Routing: React Router
 
-React Router: For client-side routing and navigation.
+Styling: Tailwind CSS with the DaisyUI component library
 
-Tailwind CSS: For utility-first styling.
+Notifications: React Toastify
 
-DaisyUI: A component library for Tailwind CSS.
+Backend & Database
+Platform: Firebase
 
-React Toastify: For user-friendly notifications.
+Database: Cloud Firestore (NoSQL)
 
-Backend & Database:
-
-Firebase: Used for the entire backend infrastructure.
-
-Firestore: As the NoSQL database for storing user and donation data.
-
-Firebase Authentication: For managing user identity.
+Authentication: Firebase Authentication
