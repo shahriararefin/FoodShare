@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Import components
+// Import Components
 import Header from './Components/Header/Header'; 
 import Home from './Pages/Home/Home';
 import About from './Pages/About/About';
