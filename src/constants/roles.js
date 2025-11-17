@@ -6,7 +6,7 @@ export const ROLES = {
 
 export const DONATION_STATUS = {
   APPROVED: 'approved',
-  REJECTED: 'rejected', // <-- Make sure this line is present
+  REJECTED: 'rejected', 
   CLAIMED: 'claimed',
   PENDING: 'pending',
   AVAILABLE: 'Available',

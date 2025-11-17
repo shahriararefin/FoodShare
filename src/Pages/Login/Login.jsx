@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-// Corrected: All auth functions are now in one import line
+
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-// Corrected: All firestore functions in one line
+// All firestore functions in one line
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-// Your Firebase config
+// Firebase config
 import { auth, db } from '../../firebaseConfig';
 
-// Your components
+
 import WavyBackground from '../../Components/WavyBackground/WavyBackground';
 
 const Login = () => {

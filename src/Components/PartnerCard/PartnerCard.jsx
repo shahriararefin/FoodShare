@@ -6,7 +6,7 @@ const PartnerCard = ({ partner }) => {
   return (
     <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-lg flex items-center gap-4 w-full max-w-sm">
       <div className="w-16 h-16 bg-blue-200 rounded-full flex-shrink-0 flex items-center justify-center">
-        {/* You can use an img tag here if you have actual logos */}
+        {/* We can use an img tag here if you have actual logos */}
         <span className="text-2xl">{logo}</span>
       </div>
       <div>

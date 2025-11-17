@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebaseConfig'; // Import the auth instance from your config file
+import { auth } from '../../firebaseConfig'; 
 
 const LoginForm = () => {
   // We use 'useState' to manage the user's input for email and password.

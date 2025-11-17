@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, orderBy, limit, onSnapshot, where } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import { DONATION_STATUS } from '../../constants/roles'; // Assuming you have constants
+import { DONATION_STATUS } from '../../constants/roles';
 import DonationCard from '../DonationCard/DonationCard';
 import DonationCardSkeleton from '../DonationCard/DonationCardSkeleton'; // Import skeleton
 
@@ -19,9 +19,6 @@ const RecentDonations = () => {
             orderBy("createdAt", "desc"),
             limit(3)
         );
-
-        // Note: This query requires a composite index in Firestore.
-        // Check your browser console for a link to create it if it doesn't exist.
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const donationsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
