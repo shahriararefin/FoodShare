@@ -55,7 +55,7 @@ const AdminDashboard = () => {
         fetchUsers();
     }, [currentUser]);
 
-    // --- Restored Donation Update Logic ---
+    
     const updateDonationStatus = async (donationId, newStatus) => {
         setUpdatingDonationId(donationId);
         const donationRef = doc(db, 'donations', donationId);
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
         setNewRoles(prev => ({ ...prev, [userId]: role }));
     };
 
-    // --- Restored Donation Rendering Logic ---
+    
     const renderDonationsContent = () => {
         if (donationsLoading) return <p className="text-center font-semibold">Loading donations...</p>;
         if (donationsError) return <p className="text-center text-red-500">{donationsError}</p>;

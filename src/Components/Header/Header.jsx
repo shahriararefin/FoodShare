@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../Nav/Nav'; 
-import logo from '../../assets/logo.png'; // Adjust the path if needed
+import logo from '../../assets/logo.png'; 
 
 const Header = () => {
   return (
@@ -10,7 +10,7 @@ const Header = () => {
         <img src={logo} alt="FoodShare Logo" className="h-8 w-10 object-contain" />
         <span className="font-bold text-lg text-[#1E3A2F]">FoodShare</span>
       </Link>
-      {/* All navigation links are now handled by the Nav component */}
+      
       <Nav /> 
     </header>
   );

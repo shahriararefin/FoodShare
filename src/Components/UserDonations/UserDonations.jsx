@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import DonationCard from '../DonationCard/DonationCard'; // We'll reuse the card component
+import DonationCard from '../DonationCard/DonationCard'; 
 import { ROLES } from '../../constants/roles';
 
 const UserDonations = () => {
@@ -26,7 +26,7 @@ const UserDonations = () => {
             fieldToQuery = 'claimedById';
         } else {
             setLoading(false);
-            return; // Don't fetch for other roles like admin on this component
+            return; 
         }
 
         const q = query(

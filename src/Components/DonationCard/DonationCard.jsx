@@ -28,7 +28,7 @@ const DonationCard = ({ donation }) => {
             await updateDoc(donationRef, {
                 status: DONATION_STATUS.CLAIMED,
                 claimedBy: userProfile.name,      // The NGO's name from their profile
-                claimedById: currentUser.uid      // THE FIX: The NGO's ID from authentication
+                claimedById: currentUser.uid      // The NGO's ID from authentication
             });
             toast.success('Donation claimed successfully! Please coordinate pickup.');
         } catch (err) {

@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyA7grYGb10TmeRkyBQJkNPaAwqMOtiUfxM",
   authDomain: "foodshare-11d71.firebaseapp.com",
   projectId: "foodshare-11d71",
-  storageBucket: "foodshare-11d71.appspot.com", // Note: I corrected a typo here from your previous attempts. It should be .appspot.com
+  storageBucket: "foodshare-11d71.appspot.com", 
   messagingSenderId: "425846744302",
   appId: "1:425846744302:web:9fee5c52d7dc0d8dbeffff",
   measurementId: "G-S0YXEL9442"

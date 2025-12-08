@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // Import the useAuth hook
+import { useAuth } from '../../context/AuthContext'; 
 
 const HomeNav = () => {
-    const { currentUser } = useAuth(); // Get the current user
+    const { currentUser } = useAuth(); //  To Get the current user
 
     const activeLinkStyle = {
         backgroundColor: '#0C3B25',

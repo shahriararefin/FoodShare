@@ -7,7 +7,7 @@ import DonationCardSkeleton from '../../Components/DonationCard/DonationCardSkel
 import WavyBackground from '../../Components/WavyBackground/WavyBackground';
 import { toast } from 'react-toastify';
 
-// --- HELPER FUNCTION to calculate distance between two lat/lng points ---
+
 // This is the Haversine formula, which calculates the great-circle distance
 const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the earth in km
@@ -106,7 +106,7 @@ const AvailableDonations = () => {
         toast.info("Filter cleared.");
     };
     
-    // ... (Your renderContent function can be adapted for the new state)
+    
 
     return (
         <main className="flex-1 flex flex-col items-center bg-[#FEFDF9] relative overflow-hidden p-4">
@@ -125,7 +125,7 @@ const AvailableDonations = () => {
                 id="radius"
                 value={radius}
                 onChange={(e) => setRadius(Number(e.target.value))}
-                // 👇 Updated classes to match your theme's inputs
+                
                 className="input bg-yellow-400/80 text-gray-800 font-semibold rounded-full border-2 border-gray-600 w-24 text-center"
             />
             <span className="font-semibold text-gray-700">km</span>
@@ -134,7 +134,7 @@ const AvailableDonations = () => {
         <button
             onClick={handleFilterByDistance}
             disabled={isFiltering}
-            // 👇 Updated classes to match your primary action button
+            
             className="btn rounded-full bg-[#0C3B25] hover:bg-[#176b43] text-white font-bold border-2 border-gray-600 disabled:opacity-50"
         >
             {isFiltering ? 'Locating...' : 'Filter'}
@@ -150,7 +150,7 @@ const AvailableDonations = () => {
     </div>
 </div>
                 <div className="w-full max-w-4xl mx-auto">
-                    {/* Your existing rendering logic */}
+                   
                     {loading && <DonationCardSkeleton />}
                     {error && <p className="text-center text-red-500">{error}</p>}
                     {!loading && !error && (

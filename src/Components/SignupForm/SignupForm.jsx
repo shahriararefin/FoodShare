@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-// Corrected: All auth functions are now in one import line
+// All auth functions are now in one import line
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
-// Corrected: All firestore functions in one line
+// All firestore functions in one line
 import { doc, setDoc } from 'firebase/firestore';
 
-// Corrected: Only one import for your config
+// Only one import for the config
 import { auth, db } from '../../firebaseConfig';
 
 

@@ -35,7 +35,7 @@ const Nav = () => {
       <NavLink to="/available-donations" className="text-gray-700 font-medium text-sm sm:text-base hover:text-black" style={({ isActive }) => isActive ? activeLinkStyle : undefined}>Available Donations</NavLink>
       <NavLink to="/about" className="text-gray-700 font-medium text-sm sm:text-base hover:text-black" style={({ isActive }) => isActive ? activeLinkStyle : undefined}>About Us</NavLink>
       
-      {/* NEW: Conditionally render the Admin Dashboard link */}
+      {/* Conditionally render the Admin Dashboard link */}
       {userProfile && userProfile.role === 'admin' && (
         <NavLink to="/admin" className="text-blue-600 font-bold text-sm sm:text-base hover:text-blue-800" style={({ isActive }) => isActive ? activeLinkStyle : undefined}>
           Admin
