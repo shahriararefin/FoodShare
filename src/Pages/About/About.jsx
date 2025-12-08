@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NgoPartners from '../../Components/NgoPartners/NgoPartners';
-import pickup from '../../assets/pickup.svg'; 
+import pickup from '../../assets/Pickup.svg'; 
 const About = () => {
   return (
     <div className="max-h-screen bg-yellow-100 flex flex-col">
